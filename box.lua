@@ -45,6 +45,15 @@ function boxTemplate:isColliding(other)
 	return false
 end
 
+function boxTemplate:isWithin(x, y)
+	if self:left() < x and x < self:right() then
+		if self:top() < y and y < self:bottom() then
+			return true
+		end
+	end
+	return false
+end
+
 function Box.new(x, y, width, height)
 	if not height then height = width end
 	local self = table.shallow_copy(boxTemplate)
@@ -55,13 +64,19 @@ function Box.new(x, y, width, height)
 	return self
 end
 
+local hitBoxTemplate = {}
+
 function HitBox.new(x, y, width, height, damage)
 	local self = Box.new(x, y, width, height)
+	self = table.join(self, hitBoxTemplate)
 	self.damage = damage
 	return self
 end
 
+local strikeBoxTemplate = {}
+
 function StrikeBox.new(x, y, width, height)
 	local self = Box.new(x, y, width, height)
+	self = table.join(self, strikeBoxTemplate)
 	return self
 end
