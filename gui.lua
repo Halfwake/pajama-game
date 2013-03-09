@@ -84,7 +84,7 @@ function Screen.StartScreen.new(owner)
 							self.image = IMAGE.start_button_down
 						end,
 						function(self)
-							owner:changeMode('MainMenu')
+							owner:changeMode('MainMenuScreen')
 						end,
 						function(self)
 							self.image = IMAGE.start_button_up
@@ -92,5 +92,50 @@ function Screen.StartScreen.new(owner)
 					  )
 			}
 	local self = Screen.MenuScreen.new(owner, IMAGE.start_screen, buttons)
+	return self
+end
+
+Screen.MainMenuScreen = {}
+
+function Screen.MainMenuScreen.new(owner)
+	local buttons = {
+				Button.new(
+						IMAGE.start_button_up,
+						function(self)
+							self.image = IMAGE.start_button_down
+						end,
+						function(self)
+							--go to next menu
+						end,
+						function(self)
+							self.image = IMAGE.start_button_up
+						end
+					  ),
+				Button.new(
+						IMAGE.quit_button_up,
+						function(self)
+							self.image = IMAGE.quit_button_down
+						end,
+						function(self)
+							--quit
+						end,
+						function(self)
+							self.image = IMAGE.quit_button_up
+						end
+					  ),
+				Button.new(
+						IMAGE.match_button_up,
+						function(self)
+							self.image = IMAGE.match_button_down
+						end,
+						function(self)
+							--goToMatchScreen
+						end,
+						function(self)
+							self.image = IMAGE.match_button_up
+						end
+					  ),
+			}
+	local self = Screen.MenuScreen.new(owner, IMAGE.mainmenu_screen, buttons)
 	return self
 end
