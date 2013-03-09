@@ -1,4 +1,5 @@
 require 'util'
+require 'screen'
 
 Menu = {}
 
@@ -59,7 +60,7 @@ function Menu.StartScreen.new()
 							self.image = IMAGE.start_button_down
 						end,
 						function()
-							--change to next screen
+							Root.changeMode('mainmenu')
 						end,
 						function()
 							self.image = IMAGE.start_button_down
