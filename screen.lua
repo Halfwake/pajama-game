@@ -1,28 +1,16 @@
-Root = {
-		mode = 'startscreen',
-       }
+require 'util'
 
-function Root.changeMode(newMode)
-	self.mode = newMode
-	if self.mode == 'startscreen' then
-		self.screen = Menu.StartScreen.new()
-	elseif self.mode == 'mainmenu' then
-		self.screen = Menu.MainMenuScreen.new()
-	end
+if not Screen then Screen = {} end
+
+local screenTemplate = {}
+
+function screenTemplate:update(dt) end
+function screenTemplate:draw() end
+
+function Screen.new(owner, image, buttons)
+	local self = table.shallow_copy(screenTemplate)
+	self.owner = owner
+	self.image = image
+	self.buttons = buttons
+	return self
 end
-
-function Root.draw()
-	if self.screen then
-		self.screen:draw()
-	end
-end
-
-function Root.update()
-	if self.screen then
-		self.screen:update()
-	end
-end
-
-		
-
-
