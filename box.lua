@@ -54,3 +54,14 @@ function Box.new(x, y, width, height)
 	self.height = height
 	return self
 end
+
+function HitBox.new(x, y, width, height, damage)
+	local self = Box.new(x, y, width, height)
+	self.damage = damage
+	return self
+end
+
+function StrikeBox.new(x, y, width, height)
+	local self = Box.new(x, y, width, height)
+	return self
+end
