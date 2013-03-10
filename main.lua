@@ -1,10 +1,15 @@
 require 'screen'
 require 'gui'
-	
+require 'sprite'
+
 function love.load()
 	love.graphics.setCaption('Pajama Game')
 
 	Root = {}
+
+	sprite_a = Sprite.new("start_button", 256, 64)
+	sprite_b = Sprite.new("start_button", 256, 64)
+	sprite_b:setFrame(1)
 
 	function Root:changeMode(newMode)
 		self.screen = Screen[newMode].new(self)
@@ -14,6 +19,9 @@ function love.load()
 	function Root:draw()
 		if self.screen then
 			self.screen:draw()
+
+			sprite_a:draw(10, 400)
+			sprite_b:draw(10, 500)
 		end
 	end
 
