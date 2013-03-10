@@ -1,6 +1,7 @@
 require 'util'
 require 'screen'
 require 'resource'
+require 'sprite'
 
 if not Screen then Screen = {} end
 
@@ -20,14 +21,14 @@ function buttonTemplate:update(dt)
 end
 
 function buttonTemplate:draw()
-	love.graphics.draw(self.image, self.x - self.image:getWidth() / 2, self.y - self.image:getHeight() / 2)
+	self.sprite:draw(self.x - self.sprite.sprite_width / 2, self.y - self.sprite.sprite_height / 2)
 end
 
 function buttonTemplate:isWithin(x, y)
-	self_x = self.x - self.image:getWidth() / 2
-	self_y = self.y - self.image:getHeight() / 2
-	if self_x < x and x < self_x + self.image:getWidth() then
-		if self_y < y and y < self_y + self.image:getHeight() then
+	self_x = self.x - self.sprite.sprite_width / 2
+	self_y = self.y - self.sprite.sprite_height / 2
+	if self_x < x and x < self_x + self.sprite.sprite_width then
+		if self_y < y and y < self_y + self.sprite.sprite_height then
 			return true
 		end
 	end
@@ -42,9 +43,9 @@ function buttonTemplate:onClick() end
 
 function Button.new(image, hover, click, notHover, x, y)
 	local self = table.shallow_copy(buttonTemplate)
-	self.image = image
-	if not x then self.x = love.graphics.getWidth() / 2 - self.image:getWidth() / 2 else self.x = x end
-	if not y then self.y = love.graphics.getHeight() / 2 - self.image:getHeight() / 2 else self.y = y end
+	self.sprite = Sprite.new(image, image:getWidth(), image:getHeight())
+	self.x = x
+	self.y = y
 	if hover then self.onHover = hover end
 	if notHover then self.onNotHover = notHover end
 	if click then self.onClick = click end
@@ -81,14 +82,16 @@ function Screen.StartScreen.new(owner)
 				Button.new(
 						IMAGE.start_button_up,
 						function(self)
-							self.image = IMAGE.start_button_down
+							self.sprite.image = IMAGE.start_button_down
 						end,
 						function(self)
 							owner:changeMode('MainMenuScreen')
 						end,
 						function(self)
-							self.image = IMAGE.start_button_up
-						end
+							self.sprite.image = IMAGE.start_button_up
+						end,
+						love.graphics.getWidth() / 2,
+						love.graphics.getHeight() / 2
 					  )
 			}
 	local self = Screen.MenuScreen.new(owner, IMAGE.start_screen, buttons)
@@ -99,40 +102,41 @@ Screen.MainMenuScreen = {}
 
 function Screen.MainMenuScreen.new(owner)
 	local buttons = {
+				--buttons need x and y arguments
 				Button.new(
 						IMAGE.start_button_up,
 						function(self)
-							self.image = IMAGE.start_button_down
+							self.sprite.image = IMAGE.start_button_down
 						end,
 						function(self)
 							--go to next menu
 						end,
 						function(self)
-							self.image = IMAGE.start_button_up
+							self.sprite.image = IMAGE.start_button_up
 						end
 					  ),
 				Button.new(
 						IMAGE.quit_button_up,
 						function(self)
-							self.image = IMAGE.quit_button_down
+							self.sprite.image = IMAGE.quit_button_down
 						end,
 						function(self)
 							--quit
 						end,
 						function(self)
-							self.image = IMAGE.quit_button_up
+							self.sprite.image = IMAGE.quit_button_up
 						end
 					  ),
 				Button.new(
 						IMAGE.match_button_up,
 						function(self)
-							self.image = IMAGE.match_button_down
+							self.sprite.image = IMAGE.match_button_down
 						end,
 						function(self)
 							--goToMatchScreen
 						end,
 						function(self)
-							self.image = IMAGE.match_button_up
+							self.sprite.image = IMAGE.match_button_up
 						end
 					  ),
 			}
